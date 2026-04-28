@@ -114,6 +114,158 @@
 
         </div>
     </section>
+        <div class="divider"></div>
+ 
+
+    <!-- ═══════════════════════ PROJECTS ═══════════════════════ -->
+    <section id="projects">
+        <div class="section-label reveal">Work</div>
+        <h2 class="section-title reveal">Project <span>Showcase</span></h2>
+        <p class="section-sub reveal">A collection of projects from high school through university — each one a new
+            challenge solved.</p>
+
+        <div class="carousel-wrapper reveal" id="carousel">
+            <div class="carousel-track" id="carouselTrack">
+
+                <!-- Slide 1 -->
+                <div class="carousel-slide">
+                    <div class="project-card">
+                        <div class="project-img">
+                            <img src="images/image.png" alt="PBL Web Dashboard Project" loading="lazy" />
+                            <div class="project-img-overlay"></div>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-num">01</div>
+                            <div class="project-tag">⚡ PBL · Semester 1</div>
+                            <h3 class="project-name">Citizen Information System</h3>
+                            <p class="project-desc">
+                                A Project-Based Learning web application built in Semester 1. A digital platform designed to assist in managing citizen administration at the neighborhood and community        levels.
+                            </p>
+                            <div class="project-techs">
+                                <span class="project-tech">HTML</span>
+                                <span class="project-tech">CSS</span>
+                                <span class="project-tech">JavaScript</span>
+                                <span class="project-tech">PHP</span>
+                                <span class="project-tech">MySQL</span>
+                            </div>
+                            <a href="#" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="carousel-slide">
+                    <div class="project-card">
+                        <div class="project-img">
+                            <img src="images/image2.png" alt="Mobile App Project" loading="lazy" />
+                            <div class="project-img-overlay"></div>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-num">02</div>
+                            <div class="project-tag">⚡ PBL · Semester 2</div>
+                            <h3 class="project-name">E-Quotation Application</h3>
+                            <p class="project-desc">
+                                 A Project-Based Learning web application built in Semester 2. A digital platform designed to manage supplier offers efficienty by allowing them to view the company's needs and submit price quotes online.
+                            </p>
+                            <div class="project-techs">
+                                <span class="project-tech">Blade</span>
+                                <span class="project-tech">Tailwind CSS</span>
+                                <span class="project-tech">Laravel</span>
+                                <span class="project-tech">Livewire</span>
+                            </div>
+                            <a href="#" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+               
+
+            </div><!-- /track -->
+        </div><!-- /wrapper -->
+
+        <div class="carousel-controls">
+            <button class="carousel-btn" id="prevBtn" aria-label="Previous">&#8592;</button>
+            <div class="carousel-dots" id="dots"></div>
+            <button class="carousel-btn" id="nextBtn" aria-label="Next">&#8594;</button>
+        </div>
+
+    </section>
+
+    <div class="divider"></div>
+
+
+    <footer>
+        <p>Designed &amp; Built by <span>Naufal Rafi Pratama</span> · 2024 · All Rights Reserved</p>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+        navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').style.background =
+                window.scrollY > 40 ? 'rgba(6,11,20,0.97)' : 'rgba(6,11,20,0.85)';
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 80);
+                }
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const barObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+                        bar.style.width = bar.dataset.width + '%';
+                    });
+                    barObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        document.querySelectorAll('.skill-group').forEach(g => barObserver.observe(g));
+
+        const track = document.getElementById('carouselTrack');
+        const dotsContainer = document.getElementById('dots');
+        const slides = track.querySelectorAll('.carousel-slide');
+        const total = slides.length;
+        let current = 0;
+
+        function goTo(idx) {
+            current = (idx + total) % total;
+            track.style.transform = `translateX(-${current * 100}%)`;
+            dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === current);
+            });
+        }
+
+        slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+            dot.addEventListener('click', () => { goTo(i); resetAuto(); });
+            dotsContainer.appendChild(dot);
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => { goTo(current - 1); resetAuto(); });
+        document.getElementById('nextBtn').addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+
+        function resetAuto() {
+}
+
+        let startX = 0;
+        track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+        track.addEventListener('touchend', e => {
+            const diff = startX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); resetAuto(); }
+        });
+    </script>
 
 </body>
 
